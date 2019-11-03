@@ -42,7 +42,7 @@ class WGGesuchtSession(requests.Session):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Keep WG-Gesucht.de ads on top of the listing by regularly toggling their activation status.')
-    parser.add_argument("--interval", nargs=1, type=int, default=3600, help="How often to update the ads.")
+    parser.add_argument("--interval", nargs=1, type=int, default=3600, help="How often to update the ads. Interval in seconds, default 3600 (1h).")
     parser.add_argument("ad_id", nargs="+", help="The IDs of the ads.")
     args = parser.parse_args()
     username = input("username:")
