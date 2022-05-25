@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
 import argparse
-import getpass
 import time
-import pdb
-
-import requests
+import requests 
 from bs4 import BeautifulSoup
+import google.cloud.logging
+import logging
+from random import randrange
 
+client = google.cloud.logging.Client()
+client.setup_logging()
+logging.basicConfig(level=logging.DEBUG)
 
 class WGGesuchtSession(requests.Session):
 
@@ -20,7 +23,6 @@ class WGGesuchtSession(requests.Session):
                 "display_language": "en"}
         res = self.get("https://www.wg-gesucht.de")
         res = self.post(url, json=data)
-        print('login', res)
         response = self.get("https://www.wg-gesucht.de/meine-anzeigen.html")
         soup = BeautifulSoup(response.text, features="html.parser")
         nodes = soup.select("a.logout_button")
@@ -38,23 +40,38 @@ class WGGesuchtSession(requests.Session):
                    "X-Dev-Ref-No": self.cookies.get("X-Dev-Ref-No")}
         data = {"deactivated": "1", "csrf_token": self.csrf_token}
         r = self.patch(api_url, json=data, headers=headers)
-        print('deactivate', r)
+        logging.debug('deactivate')
+        print('deactivate', ad_id, r)
         data["deactivated"] = "0"
         r = self.patch(api_url, json=data, headers=headers)
-        print('activate', r)
+        logging.debug("activate")
+        print("activate", ad_id, r)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Keep WG-Gesucht.de ads on top of the listing by regularly toggling their activation status.')
-    parser.add_argument("--interval", nargs=1, type=int, default=3600, help="How often to update the ads. Interval in seconds, default 3600 (1h).")
-    parser.add_argument("ad_id", nargs="+", help="The IDs of the ads.")
+    parser.add_argument("--ads", "-a", nargs="+", help="The IDs of the ads.")
+    parser.add_argument("--users", "-u", nargs="+", help="The usernames of the ads.")
+    parser.add_argument("-p", nargs="+", help="The passwords of the ads.")
+    
+
     args = parser.parse_args()
-    username = "ybsilas@gmail.com"
-    password = getpass.getpass("password:")
-    ad_id = args.ad_id[1]
+    users, p, ad_ids = args.users, args.p, args.ads
+    if len(users) == 1:
+        users = [users[0]] * len(ad_ids)
+    if len(p) == 1:
+        p = [p[0]] * len(ad_ids)
+
+    triplets = zip(users, p, ad_ids)
+
     while True:
-        session = WGGesuchtSession()
-        session.login(username, password)
-        session.toggle_activation(ad_id)
-        time.sleep(args.interval[0])
+        for u, p, ad_id in triplets:
+            wait = randrange(500, 1000)
+            session = WGGesuchtSession()
+            session.login(u, p)
+            session.toggle_activation(ad_id)
+            logging.debug(wait)
+            time.sleep(wait)
+
+
