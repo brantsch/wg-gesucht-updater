@@ -4,12 +4,9 @@ import argparse
 import time
 import requests 
 from bs4 import BeautifulSoup
-import google.cloud.logging
 import logging
 from random import randrange
 
-client = google.cloud.logging.Client()
-client.setup_logging()
 logging.basicConfig(level=logging.DEBUG)
 
 class WGGesuchtSession(requests.Session):
