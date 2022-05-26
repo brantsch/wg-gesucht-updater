@@ -2,15 +2,6 @@ beautifulsoup4==4.10.0
 cachetools==5.1.0
 certifi==2021.10.8
 charset-normalizer==2.0.12
-google-api-core==2.8.0
-google-auth==2.6.6
-google-cloud-appengine-logging==1.1.1
-google-cloud-audit-log==0.2.0
-google-cloud-core==2.3.0
-googleapis-common-protos==1.56.1
-grpc-google-iam-v1==0.12.4
-grpcio==1.46.3
-grpcio-status==1.46.3
 idna==3.3
 packaging==21.3
 proto-plus==1.20.4
