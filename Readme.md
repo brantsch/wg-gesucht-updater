@@ -44,3 +44,22 @@ arguments:
   -u, --users          Usernames
   --ads                ad_ids
 ```
+
+Usage
+-----
+```bash
+$ python -m venv venv
+$ venv/bin/activate 
+$ pip install -r requirements.txt
+```
+```bash
+$ python wg-gesucht-updater.py -p ${password_env} -users [users] -ads [ad_ids] --wait 1000
+```
+You can use multiple users and ads and the requests will be sent in the
+specified order separated by the specified wait time. By default the wait time
+is between 700 and 1000 seconds
+
+Dockerfile
+----------
+Make a few minor changes to the dockerfile in order to create an image and
+thereafter a container.
