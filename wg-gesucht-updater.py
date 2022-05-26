@@ -38,11 +38,13 @@ class WGGesuchtSession(requests.Session):
         data = {"deactivated": "1", "csrf_token": self.csrf_token}
         r = self.patch(api_url, json=data, headers=headers)
         logging.info('deactivate')
-        print('deactivate', ad_id, r)
+        logging.info(ad_id)
+        logging.info(r)
         data["deactivated"] = "0"
         r = self.patch(api_url, json=data, headers=headers)
         logging.info("activate")
-        print("activate", ad_id, r)
+        logging.info(ad_id)
+        logging.info(r)
 
 
 if __name__ == "__main__":
@@ -71,8 +73,8 @@ if __name__ == "__main__":
         session.login(u, p)
         session.toggle_activation(ad_id)
         wait = randrange(wait_max-300, wait_max)
-        logging.info(round(wait/60))
-        print('count', count)
+        logging.info('wait {} minutes'.format(round(wait/60)))
+        logging.info(count)
         time.sleep(wait)
 
 
