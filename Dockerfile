@@ -4,7 +4,8 @@ FROM python:3
 WORKDIR /Users/lindadaignault/Documents/coding/wg/wg-gesucht-updater
 
 # copy all the files to the container
-COPY . .
+COPY wg-gesucht-updater.py .
+COPY requirements.txt .
 
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
