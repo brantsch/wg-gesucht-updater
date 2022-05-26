@@ -52,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument("--users", "-u", nargs="+", help="The usernames of the ads.")
     parser.add_argument("-p", nargs="+", help="The passwords of the ads.")
     parser.add_argument("--wait","-w", default=1000, type=int, help="The wait time")
-    
+        
 
     args = parser.parse_args()
     users, p, ad_ids, wait_max = args.users, args.p, args.ads, args.wait
