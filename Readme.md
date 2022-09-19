@@ -33,13 +33,33 @@ There you will be shown the *Anzeigennummer* for each of your ads.
 Verwendung/Usage
 ----------------
 ```text
-usage: wg-gesucht-updater.py [-h] [--interval INTERVAL] ad_id [ad_id ...]
+usage: wg-gesucht-updater.py [-h] [--wait INTERVAL] --ads [ad_id ...] -p
+[PASSWORD] --users [ USERNAME ...]
 
-positional arguments:
-  ad_id                The IDs of the ads.
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --interval INTERVAL  How often to update the ads. Interval in seconds,
-                       default 3600 (1h).
+arguments:
+  -h, --help           Show this help message and exit
+  -w, --wait INTERVAL  How often to update the ads. Interval in seconds,
+                       default 1000. 
+  -p                   Password
+  -u, --users          Usernames
+  --ads                ad_ids
 ```
+
+Usage
+-----
+```bash
+$ python -m venv venv
+$ venv/bin/activate 
+$ pip install -r requirements.txt
+```
+```bash
+$ python wg-gesucht-updater.py -p ${password_env} -users [users] -ads [ad_ids] --wait 1000
+```
+You can use multiple users and ads and the requests will be sent in the
+specified order separated by the specified wait time. By default the wait time
+is between 700 and 1000 seconds
+
+Dockerfile
+----------
+Make a few minor changes to the dockerfile in order to create an image and
+thereafter a container.
